@@ -1,0 +1,253 @@
+openapi: 3.0.3
+info:
+  title: Swagger Ecommerce 
+  description: 
+  termsOfService: http://swagger.io/terms/
+  version: 1.0
+servers:
+  - url: http://localhost:5000/
+tags:
+  - name: ecommerce
+    description: Everything about your ecommerce
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: euser
+    description: Operations about euser
+paths:
+  /api/user/all-users:
+    get:
+      tags:
+        - euser
+      summary: Return all users
+      description: return all euser
+      operationId: all-users
+      responses:
+        default:
+          description: successful operation
+  /api/user/{Id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - euser
+      summary: Get user by user ID | Use Token to get data
+      description: return  a single user
+      operationId: getUserById
+      parameters:
+        - name: Id
+          in: path
+          description: 'The Id that needs to be fetched'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid User Id supplied
+        '404':
+          description: User not found
+    delete:
+      tags:
+        - euser
+      summary: Delete user by user ID
+      description: return  deleted user Id
+      operationId: deleteUserById
+      parameters:
+        - name: Id
+          in: path
+          description: 'The Id that needs to be deleted'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid User Id supplied
+        '404':
+          description: User not found
+  /api/user/edit-user:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - euser
+      summary: update user by user token
+      description: updated user details
+      operationId: updateUserByToken
+      requestBody:
+        description: Update an existent user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/eUserUpdate'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid User Id supplied
+        '404':
+          description: User not found
+  /api/user/register:
+    post:
+      tags:
+        - euser
+      summary: register a user
+      description: return a user
+      operationId: register
+      requestBody:
+        description: register user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/eUser'
+      responses:
+        default:
+          description: successful operation
+  /api/user/login:
+    post:
+      tags:
+        - euser
+      summary: login a user
+      description: return a user token
+      operationId: login
+      requestBody:
+        description: register user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login'
+      responses:
+        default:
+          description: successful operation
+  /api/user/block-user/{Id}:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - euser
+      summary: Block user by user ID | Use Token to get data
+      description: Block user
+      operationId: blockUserById
+      parameters:
+        - name: Id
+          in: path
+          description: 'The Id that needs to be fetched'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid User Id supplied
+        '404':
+          description: User not found
+  /api/user/unblock-user/{Id}:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - euser
+      summary: UnBlock user by user ID | Use Token to get data
+      description: UnBlock user
+      operationId: UnblockUserById
+      parameters:
+        - name: Id
+          in: path
+          description: 'The Id that needs to be fetched'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid User Id supplied
+        '404':
+          description: User not found
+
+components:
+  schemas:
+   eUser:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: John
+        lastname:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        mobile:
+          type: string
+          example: '12345'
+   eUserUpdate:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: John
+        lastname:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        mobile:
+          type: string
+          example: '12345'
+   login:
+      type: object
+      properties:
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+
+  ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: #
+          scopes:
+            write:pets: modify ecommerce in your account
+            read:pets: read your ecommerce
+    Bearer:
+      type: http
+      name: Authorization
+      scheme: Bearer
+      in: header
+      description: >-
+      Enter the token with the `Bearer: ` prefix, e.g. "Bearer abcde12345".
