@@ -23,5 +23,8 @@
     "swagger-jsdoc": "^6.2.7",
     "swagger-ui-express": "^4.6.0",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "@vercel/node": "^2.8.2"
   }
 }
