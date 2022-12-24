@@ -17,9 +17,14 @@ app.use('/api-docs1', swaggerUi.serve, swaggerUi.setup(swagDocument));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/user',authRouter);
-app.use(notFound);
-app.use(errorHandler);
+// app.use(notFound);
+// app.use(errorHandler);
 
+app.use('/',(req,res)=>{
+    res.json({
+        message : "Hi"
+    });
+});
 
 app.listen(PORT, () =>{
     console.log(`server is and  running at ${PORT}`);
