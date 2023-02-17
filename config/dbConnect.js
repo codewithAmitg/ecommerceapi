@@ -4,6 +4,7 @@ const dbConnect = () =>{
         mongoose.set("strictQuery", false);
         const conn=mongoose.connect(process.env.MONGODB_URL);
         console.log("Database Connected Successfully");
+        console.log(process.env.MONGODB_URL);
 
     }catch(error){
         console.log("Database error");
