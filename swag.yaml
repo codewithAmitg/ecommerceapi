@@ -5,7 +5,7 @@ info:
   termsOfService: http://swagger.io/terms/
   version: 1.0
 servers:
-  - url: https://aecom.onrender.com:10000/
+  - url: https://aecom.onrender.com/
 tags:
   - name: ecommerce
     description: Everything about your ecommerce
