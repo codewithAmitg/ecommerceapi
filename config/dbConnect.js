@@ -1,5 +1,5 @@
 const { default: mongoose } =require("mongoose");
-const dbConnect = () =>{
+const dbConnect = async () =>{
     try{
         mongoose.set("strictQuery", false);
         const conn= await mongoose.connect(process.env.MONGODB_URL);
